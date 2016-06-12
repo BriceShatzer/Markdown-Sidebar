@@ -7,11 +7,13 @@ def checkForWikiPage(file):
     else: 
         return True 
 
+def displayStr(string):
+    return string.replace('-',' ')
 
 def createIndexFile(startpath, indexFile):
     for root, dirs, files in os.walk(startpath):
         files = [join(root,f) for f in files if not f[0] == '.']
-        dirs[:] = [d for d in dirs if not d[0] == '.']
+        #dirs[:] = [d for d in dirs if not d[0] == '.'] #dirs values aren't used
         level = root.replace(startpath, '').count(os.sep) - 1
         indent = ' ' * 2 * (level)
 
@@ -20,15 +22,14 @@ def createIndexFile(startpath, indexFile):
             for f in files:
                 if checkForWikiPage(f):                               
                     path = '/' + os.getcwd().split(os.sep)[-1] + f[1:-3]
-                    indexFile.write('- [{}]({})\n'.format( f[f.rfind('/')+1 : -3].replace('-',' ') , path) )
+                    indexFile.write('- [{}]({})\n'.format( displayStr(f[f.rfind('/')+1 : -3]), path) )
         else:
-            indexFile.write('{}- {}\n'.format(indent, os.path.basename(root)))
+            indexFile.write('{}- {}\n'.format( indent, displayStr(os.path.basename(root)) ) )
             subindent = ' ' * 2 * (level + 1)
             for f in files:
                 if checkForWikiPage(f):
                     path = '/' + os.getcwd().split(os.sep)[-1] + f[1:-3]
-                    indexFile.write('{}- [{}]({})\n'.format(subindent, f[f.rfind('/')+1 : -3].replace('-',' ') , path) )
-
+                    indexFile.write('{}- [{}]({})\n'.format( subindent, displayStr(f[f.rfind('/')+1 : -3]), path) )
 
 indexFile = open('_Sidebar.md', 'w')
 
