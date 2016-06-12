@@ -15,7 +15,7 @@ def displayString(string):
 def createIndexFile(startpath, indexFile):
     for root, dirs, files in os.walk(startpath):
         files = [join(root,f) for f in files if not f[0] == '.']
-        dirs[:] = [d for d in dirs if not d[0] == '.']
+        #dirs[:] = [d for d in dirs if not d[0] == '.'] #dirs values aren't used
         level = root.replace(startpath, '').count(os.sep) - 1
         indent = ' ' * 2 * (level)
 
